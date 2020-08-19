@@ -18,6 +18,7 @@
 \RequirePackage{crossreftools}
 \RequirePackage{dirtytalk}
 \RequirePackage{dsfont}
+
 \RequirePackage{esvect}
 \RequirePackage{etoolbox}
 \RequirePackage{float}
@@ -187,10 +188,6 @@
 
 % Höheres chi
 \newcommand{\Chi}{\text{\raise0.5ex\hbox{$\chi$}}}
-
-% Skalarprodukt
-%\DeclarePairedDelimiterX{\DotP}[2]{\langle}{\rangle}{#1,#2}
-
 
 \newcommand{\longto}{\longrightarrow}
 
@@ -531,3 +528,8 @@
 \newcommand*{\tiff}{$\iff$}
 \newcommand*{\texists}{$\oldexists$}
 \newcommand*{\tforall}{$\oldforall$}
+
+% better lists
+\RequirePackage[inline]{enumitem}
+\setlist[enumerate, 1]{ref=\labelenumi}
+\setlist[enumerate, 2]{ref=\labelenumii}
