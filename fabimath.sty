@@ -1,0 +1,554 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{fabimath}[2020/08/19 LaTeX package for math lecture notes, homework etc.]
+
+% Muss anfangs geladen werden 
+\RequirePackage[dvipsnames]{xcolor} 
+\RequirePackage{imakeidx}
+%
+\RequirePackage{aligned-overset}
+\RequirePackage{amsfonts}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{array}
+\RequirePackage{bm}
+\RequirePackage{cancel}
+\RequirePackage{color}
+\RequirePackage{commath}
+\RequirePackage{crossreftools}
+\RequirePackage{dirtytalk}
+\RequirePackage{dsfont}
+\RequirePackage{esvect}
+\RequirePackage{etoolbox}
+\RequirePackage{float}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{graphicx}
+\RequirePackage{interval}
+\RequirePackage{longtable}
+\RequirePackage{marvosym}
+\RequirePackage[cal=boondoxo]{mathalfa}
+\RequirePackage{mathtools}
+\RequirePackage{multirow}
+\RequirePackage{nameref}
+\RequirePackage{nicefrac}
+\RequirePackage{nicematrix}
+\RequirePackage{pgfplots}
+\RequirePackage{soul}
+\RequirePackage{stackengine}
+\RequirePackage{stmaryrd}
+\RequirePackage{suffix}
+\RequirePackage{tabularx}
+\RequirePackage{tikz}
+\RequirePackage{tikz-cd}
+\RequirePackage{tkz-euclide}
+\RequirePackage{titlesec}
+\RequirePackage{wasysym}
+\RequirePackage{wrapfig}
+\RequirePackage{xparse}
+\RequirePackage{xpunctuate}
+\RequirePackage{xspace}
+
+% Muss am Ende geladen werden
+\RequirePackage{hyperref}
+%
+
+\DeclareSymbolFontAlphabet{\mathcalorig}   {symbols}
+\newcommand{\mcal}[1]{\mathcalorig{#1}}
+
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{arrows.meta, shapes}
+
+\hypersetup{
+  colorlinks   = true,    % Colours links instead of ugly boxes
+  urlcolor     = blue,    % Colour for external hyperlinks
+  linkcolor    = blue,    % Colour of internal links
+  citecolor    = red      % Colour of citations
+}
+
+\titleformat{\section}[hang]
+{\sc\large\center} % Kapitälchen, groß, centered
+{\thesection.}{.1em}{}
+\titlespacing{\section}
+{1pc} % Abstand von links
+{20ex plus .1ex minus .2ex}
+{1pc}
+
+\allowdisplaybreaks
+\setlength\parindent{0em} % Keine Einrückung
+\renewcommand{\mvchr}[1]{\mbox{\mvs\symbol{#1}}} % Fixt den \Lightning
+
+\renewcommand{\labelenumi}{\textnormal{(\roman{enumi})}}
+
+\newcommand{\Romans}{\renewcommand{\labelenumi}{\textnormal{(\Roman{enumi})}}}
+\newcommand{\romans}{\renewcommand{\labelenumi}{\textnormal{(\roman{enumi})}}}
+\newcommand{\ABC}{\renewcommand{\labelenumi}{\textnormal{\Alph{enumi})}}}
+\newcommand{\abc}{\renewcommand{\labelenumi}{\textnormal{(\alph{enumi})}}}
+\newcommand{\arab}{\renewcommand{\labelenumi}{\textnormal{\arabic{enumi}.}}}
+\newcommand{\impli}{\renewcommand{\labelitemi}{$\implies$}}
+\newcommand{\implii}{\renewcommand{\labelitemii}{$\implies$}}
+\newcommand{\bull}{\renewcommand{\labelitemi}{\textbullet}}
+
+
+
+\newcommand{\brauer}{\ensuremath{\mathbb B}}
+\newcommand{\complex}{\ensuremath{\mathbb C}}
+\newcommand{\disk}{\ensuremath{\mathbb D}}
+
+\newcommand{\galoisf}{\ensuremath{\mathbb F}}
+
+\newcommand{\quaternions}{\ensuremath{\mathbb H}}
+
+\newcommand{\kfield}{\ensuremath{\mathbb K}}
+
+\newcommand{\naturals}{\ensuremath{\mathbb N}}
+\newcommand{\octonions}{\ensuremath{\mathbb O}}
+\newcommand{\projective}{\ensuremath{\mathbb P}}
+\newcommand{\rationals}{\ensuremath{\mathbb Q}}
+\newcommand{\reals}{\ensuremath{\mathbb R}}
+\newcommand{\sphere}{\ensuremath{\mathbb S}}
+
+
+\newcommand{\integers}{\ensuremath{\mathbb Z}}
+
+\newcommand{\ZZ}{\ensuremath{\mathrm{Z\kern-.5em\raise-0.5ex\hbox{Z}}} }
+
+% Counter für die Aufgaben
+\newcounter{task}\setcounter{task}{1}
+\newcommand{\task}[1][]{
+  \ifnumequal{\value{task}}{1}{}{\vspace*{2.5em}} % Aufgabe 1 hat keinen Abstand nach oben
+
+  \textbf{Aufgabe \arabic{task}. #1}\\\stepcounter{task}
+}
+
+% Stackanchor+Stackrel
+\newcommand{\stack}[2]{
+    \text{\stackanchor{$#1$}{$#2$}}
+}
+
+% Header für die verschiedenen Fächer
+\newcommand{\agla}{\ihead{Fabian Nielsen}\chead{\rm Analytische Geometrie und Lineare Algebra II}}
+\newcommand{\diff}{\ihead{Fabian Nielsen}\chead{\rm Differenzial- und Integralrechnung II}}
+\newcommand{\zahl}{\ihead{Fabian Nielsen}\chead{\rm Zahlentheorie}}
+\newcommand{\alg}{\ihead{Fabian Nielsen}\chead{\rm Algebra}}
+
+% Definitionen -> Index
+\newcommand{\Defn}[1]{\textbf{#1}\index{#1}}
+
+% Vertikales Gleichheitszeichen
+\newcommand{\rot}[1]{\rotatebox{-90}{\ensuremath{#1}}}
+\newcommand{\verteq}{\rot{=}}
+\newcommand{\vertneq}{\rot{\neq}}
+\newcommand{\vertsub}{\rot{\subset}}
+\newcommand{\vertsup}{\rot{\superset}}
+\newcommand{\vertsupeq}{\rot{\supseteq}}
+\newcommand{\vertsubeq}{\rot{\subseteq}}
+
+\newcommand{\equalto}[2]{\underset{\scriptstyle\overset{\verteq}{#2}}{#1}}
+\newcommand{\undersub}[2]{\underset{\scriptstyle\overset{\mkern4mu\vertsub}{#2}}{#1}}
+\newcommand{\undersup}[2]{\underset{\scriptstyle\overset{\mkern4mu\vertsup}{#2}}{#1}}
+\newcommand{\undersupeq}[2]{\underset{\scriptstyle\overset{\mkern4mu\vertsupeq}{#2}}{#1}}
+\newcommand{\undersubeq}[2]{\underset{\scriptstyle\overset{\mkern4mu\vertsubeq}{#2}}{#1}}
+
+
+% Beweisende
+\newcommand{\Qed}{\hfill$\qed$\\}
+
+% Widerspruch!
+\newcommand{\swords}{
+  \text{
+    \rotatebox[]{135}{$\dagger$}\kern-.75em\rotatebox[]{-135}{$\dagger$}
+  }
+}
+
+% Transponiert
+\newcommand{\trans}[1]{\ensuremath{\prescript{t}{}{#1}}}
+
+% Jacobi-/Legendre-Symbol
+\newcommand{\jacobi}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
+\newcommand{\jacobitext}[2]{\ensuremath{(\frac{#1}{#2})}}
+
+% Anmerkungen (in Align etc.)
+\newcommand{\underAnn}[3][]{\ensuremath{
+  \underset{\mathclap{\stack
+  {\csname#1
+    \endcsname{\uparrow}
+  }
+  {\text{#2}}}}{#3}
+}}
+\newcommand{\overAnn}[3][]{\ensuremath{
+  \overset{\mathclap{\stack{\text{#2}}
+  {
+    \csname#1
+    \endcsname{\downarrow}
+  }
+  }}
+  {#3}
+}}
+
+% Höheres chi
+\newcommand{\Chi}{\text{\raise0.5ex\hbox{$\chi$}}}
+
+% Skalarprodukt
+%\DeclarePairedDelimiterX{\DotP}[2]{\langle}{\rangle}{#1,#2}
+
+
+\newcommand{\longto}{\longrightarrow}
+
+\let\oldforall\forall
+\renewcommand{\forall}{\ensuremath{\:\, \oldforall\, }}
+\let\oldexists\exists
+\renewcommand{\exists}{\ensuremath{\:\, \oldexists\, }}
+\newcommand{\existsunique}{\ensuremath{\:\, \oldexists!\, }}
+
+% #1 - Function Name
+% #2 - Number of Arguments
+% #3 - Operatorname
+% #4 - Argument
+\def\DeclareFunction#1[#2]#3#4{
+    \DeclarePairedDelimiterXPP{#1}[#2]{#3}{\lparen}{\rparen}{}{#4} % Starred, bigg,... version
+    \WithSuffix\newcommand#1-[#2]{#3 #4} % Minus Version, no parentheses
+}
+
+% Normen
+\let\norm\undefined
+\def\MakeNorm#1#2#3{
+  \DeclarePairedDelimiterXPP{#1}[1]{}{\lVert}{\rVert}{_{#2}}{\ifblank{#3}{\:\cdot\:}{#3}}
+}
+\MakeNorm{\norm}{}{#1}
+\MakeNorm{\normmax}{\max}{#1}
+\MakeNorm{\normE}{\mathrm{E}}{#1}
+\MakeNorm{\normL}{\mathit{L}^1}{#1}
+\MakeNorm{\norminf}{\infty}{#1}
+\MakeNorm{\normop}{\mathrm{op}}{#1}
+
+
+\def\DeclareMathOperatorWithDelimiter#1[#2]#3#4#5#6{
+\DeclarePairedDelimiterXPP{#1}[#2]{#3}{#4}{#5}{}{#6}
+\WithSuffix\newcommand#1-[#2]{#3 #6}
+}
+
+% Function Declarations
+\DeclareFunction{\GL}[2]{\operatorname{GL}_{#1}}{#2} % invertible matrices
+\DeclareFunction{\Char}[1]{\operatorname{char}}{#1} % characteristic of a field
+\DeclareFunction{\im}[1]{\operatorname{im}}{#1}
+%\DeclareMathOperator{\id}{id}
+%\DeclareMathOperator{\ggT}{ggT}
+%\DeclareMathOperator{\kgV}{kgV}
+%\DeclareMathOperator{\Rang}{Rang}
+%\DeclareMathOperator{\rank}{rank}
+%\DeclareMathOperator{\ord}{ord}
+%\DeclareMathOperator{\stab}{stab}
+%\DeclareMathOperator{\vol}{vol}
+%\DeclareMathOperator{\med}{med}
+%\DeclareMathOperator{\diag}{diag}
+%\DeclareMathOperator{\supp}{supp}
+%\DeclareMathOperator{\sign}{sign}
+%\DeclareMathOperator{\tr}{tr}
+%\DeclareMathOperator{\spa}{span}
+%\DeclareMathOperatorWithDelimiter{\Span}[1]{\operatorname{span}}{\lbrace}{\rbrace}{#1}
+%\DeclareMathOperatorWithDelimiter{\floor}[1]{}{\lfloor}{\rfloor}{#1}
+%
+%\DeclareMathOperatorWithDelimiter{\TV}[1]{\operatorname{TV}}{\lparen}{\rparen}{#1}   
+%\DeclareMathOperatorWithDelimiter{\DV}[1]{\operatorname{DV}}{\lparen}{\rparen}{#1}    
+%\DeclareMathOperatorWithDelimiter{\Dim}[1]{\operatorname{dim}}{\lparen}{\rparen}{#1} 
+%\DeclareMathOperatorWithDelimiter{\sgn}[1]{\operatorname{sgn}}{\lparen}{\rparen}{#1} 
+%\DeclareMathOperatorWithDelimiter{\Abb}[1]{\operatorname{Abb}}{\lparen}{\rparen}{#1} 
+%\DeclareMathOperatorWithDelimiter{\Ker}[1]{\operatorname{Ker}}{\lparen}{\rparen}{#1} 
+%\DeclareMathOperatorWithDelimiter{\Kern}[1]{\operatorname{Kern}}{\lparen}{\rparen}{#1}  
+%\DeclareMathOperatorWithDelimiter{\Bild}[1]{\operatorname{Bild}}{\lparen}{\rparen}{#1}  
+%\DeclareMathOperatorWithDelimiter{\diam}[1]{\operatorname{diam}}{\lparen}{\rparen}{#1}  
+%\DeclareMathOperatorWithDelimiter{\Char}[1]{\operatorname{char}}{\lparen}{\rparen}{#1}  
+%\DeclareMathOperatorWithDelimiter{\Fix}[1]{\operatorname{Fix}}{\lparen}{\rparen}{#1}  
+%\DeclareMathOperatorWithDelimiter{\Tr}[1]{\operatorname{tr}}{\lparen}{\rparen}{#1}  
+%\DeclareMathOperator{\Id}{Id} 
+%\let\grad\relax \let\gradient\relax
+%\DeclareMathOperatorWithDelimiter{\grad}[1]{\operatorname{grad}}{\lparen}{\rparen}{#1} % %grad of #1 
+%\DeclareMathOperatorWithDelimiter{\gradient}[1]{\nabla}{\lparen}{\rparen}{#1} % grad of %#1 
+\DeclareFunction{\Par}[1]{}{#1}
+\DeclareFunction{\Bij}[1]{\operatorname{Bij}}{#1} 
+\DeclareFunction{\Bil}[1]{\operatorname{Bil}}{#1} 
+\DeclareFunction{\Sym}[1]{\operatorname{Sym}}{#1}  
+\DeclareFunction{\Gal}[1]{\operatorname{Gal}}{#1}  
+\DeclareFunction{\Rad}[1]{\operatorname{Rad}}{#1}  
+\DeclareFunction{\Int}[1]{\operatorname{Int}}{#1}  
+\DeclareFunction{\End}[1]{\operatorname{End}}{#1}  
+\DeclareFunction{\Aut}[1]{\operatorname{Aut}}{#1}  
+\DeclareFunction{\Hom}[1]{\operatorname{Hom}}{#1}  
+\DeclareFunction{\Eig}[1]{\operatorname{Eig}}{#1}
+\DeclareFunction{\Mat}[2]{\operatorname{Mat}_{#1}}{#2}
+\DeclareFunction{\matrices}[3]{\operatorname{Mat}}{#1 \times #2, #3}
+\newcommand{\sqmatrices}[2]{\matrices{#1}{#1}{#2}} 
+
+% Trig Functions
+\let\Sin\relax
+\let\Cos\relax
+\let\Tan\relax
+\let\Sec\relax
+\let\Csc\relax
+\let\Cot\relax
+\let\ArcSin\relax
+\let\ArcCos\relax
+\let\ArcTan\relax
+\let\ArcSec\relax
+\let\ArcCsc\relax
+\let\ArcCot\relax
+
+\let\ArcCosh\relax
+\let\ArcSinh\relax
+\let\ArcTanh\relax
+\let\ArcSech\relax
+\let\ArcCsch\relax
+\let\ArcCoth\relax
+
+\DeclareFunction{\Sin}[1]{\operatorname{sin}}{#1}
+\DeclareFunction{\Cos}[1]{\operatorname{cos}}{#1}
+
+
+\let\Min\relax
+\let\Max\relax
+\DeclareMathOperatorWithDelimiter{\Min}[1]{\operatorname{min}}{\lbrace}{\rbrace}{#1}
+\DeclareMathOperatorWithDelimiter{\Max}[1]{\operatorname{max}}{\lbrace}{\rbrace}{#1}
+\DeclareMathOperatorWithDelimiter{\Set}[1]{}{\lbrace}{\rbrace}{#1}
+
+\DeclarePairedDelimiterXPP{\restr}[1]{}{.}{\rvert}{}{#1} % restriction of domain 
+\DeclareMathOperatorWithDelimiter{\dotp}[1]{}{\langle}{\rangle}{\ifblank{#1}{\cdot,\!\cdot}{#1}}
+
+\makeatletter
+\newcommand\ifcounter[3]{\@ifundefined{c@#1}{#3}{#2}} % Prüft, ob #1 als counter existiert
+\makeatother
+
+% Alle Arten von Sätzen/Lemmata/...
+\ifcounter{chapter}{
+\newtheorem{theorem}{Satz}[chapter]} % Für book
+{\newtheorem{theorem}{Satz}[section]} % Für article
+\newtheorem{corollary}[theorem]{Korollar}
+\newtheorem{lemma}[theorem]{Lemma}
+
+% ...Bemerkungen...
+\theoremstyle{remark}
+\newtheorem*{remark*}{Bemerkung}
+\newtheorem{remark}[theorem]{Bemerkung}
+
+
+% ...Folgerungen...
+\theoremstyle{definition}
+\newtheorem{conclusion}[theorem]{Folgerung}
+\newtheorem*{conclusion*}{Folgerung}
+
+% ... Definitionen...
+\theoremstyle{definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+% ...Beispiele...
+\theoremstyle{definition}
+\newtheorem*{example}{Beispiel}
+\newtheorem{example+}[theorem]{Beispiel}
+
+\newtheorem*{notation}{Notation}
+
+% Erlaubt diverse Umgebungen zu haben, ohne alle neu definieren zu müssen.
+\newtheoremstyle{blank}% name of the style to be used
+  {3pt}% measure of space to leave above the theorem. E.g.: 3pt
+  {3pt}% measure of space to leave below the theorem. E.g.: 3pt
+  {}% name of font to use in the body of the theorem
+  {}% measure of space to indent
+  {\bf}% name of head font
+  {.}% punctuation between head and body
+  { }% space after theorem head; " " = normal interword space
+  {\ifblank{#3}{\thmnumber{#2}}{\thmnote{#3}\thmnumber{ #2}}}% Manually specify head
+  
+\theoremstyle{blank}
+\newtheorem{blank}[theorem]{}
+\newtheorem*{blank*}{}
+
+\newtheoremstyle{blankit}{3pt}{3pt}{}{}{\it}{.}{ }{\ifblank{#3}{\thmnumber{#2}}{\thmnote{#3}\thmnumber{ #2}}}
+
+\theoremstyle{blankit}
+\newtheorem{blankit}[theorem]{}
+\newtheorem*{blankit*}{}
+
+
+\newcommand{\lemmaref}[1]{\hyperref[#1]{\text{Lemma \ref*{#1}}}}
+\newcommand{\theoref}[1]{\hyperref[#1]{\text{Satz \ref*{#1}}}}
+\renewcommand{\defnref}[1]{\hyperref[#1]{\text{Definition \ref*{#1}}}}
+\renewcommand{\exref}[1]{\hyperref[#1]{\text{Beispiel \ref*{#1}}}}
+\renewcommand{\remref}[1]{\hyperref[#1]{\text{Bemerkung \ref*{#1}}}}
+\newcommand{\abcref}[2]{\hyperref[#1]{(#2)}}
+
+% just to make sure it exists
+\providecommand\given{}
+% can be useful to refer to this outside \Set
+\newcommand\SetSymbol[1][]{%
+\nonscript\:#1\vert
+\allowbreak
+\nonscript\:
+\mathopen{}}
+
+\renewcommand\given{\SetSymbol[\delimsize]}
+
+\newcommand{\textMat}[2]{
+  \ensuremath{
+    \begin{psmallmatrix}
+      #1\\#2
+    \end{psmallmatrix}
+  }
+}
+
+\newcommand{\un}{\ensuremath{\setminus\Set{0}}}
+
+\newcommand{\enbox}[1]{
+  \fbox{\fbox{\parbox{\textwidth}{#1}}}
+}
+
+
+\makeatletter
+\newsavebox\myboxA
+\newsavebox\myboxB
+\newlength\mylenA
+
+\newcommand*\xoverline[2][0.75]{%
+    \sbox{\myboxA}{$\m@th#2$}%
+    \setbox\myboxB\null% Phantom box
+    \ht\myboxB=\ht\myboxA%
+    \dp\myboxB=\dp\myboxA%
+    \wd\myboxB=#1\wd\myboxA% Scale phantom
+    \sbox\myboxB{$\m@th\overline{\copy\myboxB}$}%  Overlined phantom
+    \setlength\mylenA{\the\wd\myboxA}%   calc width diff
+    \addtolength\mylenA{-\the\wd\myboxB}%
+    \ifdim\wd\myboxB<\wd\myboxA%
+       \rlap{\hskip 0.5\mylenA\usebox\myboxB}{\usebox\myboxA}%
+    \else
+        \hskip -0.5\mylenA\rlap{\usebox\myboxA}{\hskip 0.5\mylenA\usebox\myboxB}%
+    \fi}
+\makeatother
+
+\let\comment\undefined
+\newcommand{\comment}[1]{}
+
+% different bars/overlines
+\makeatletter
+\tikzset{
+  column sep/.code=\def\pgfmatrixcolumnsep{\pgf@matrix@xscale*(#1)},
+  row sep/.code   =\def\pgfmatrixrowsep{\pgf@matrix@yscale*(#1)},
+  matrix xscale/.code=%
+    \pgfmathsetmacro\pgf@matrix@xscale{\pgf@matrix@xscale*(#1)},
+  matrix yscale/.code=%
+    \pgfmathsetmacro\pgf@matrix@yscale{\pgf@matrix@yscale*(#1)},
+  matrix scale/.style={/tikz/matrix xscale={#1},/tikz/matrix yscale={#1}}}
+\def\pgf@matrix@xscale{1}
+\def\pgf@matrix@yscale{1}
+\makeatother
+
+\makeatletter
+\let\save@mathaccent\mathaccent
+\newcommand*\if@single[3]{%
+  \setbox0\hbox{${\mathaccent"0362{#1}}^H$}%
+  \setbox2\hbox{${\mathaccent"0362{\kern0pt#1}}^H$}%
+  \ifdim\ht0=\ht2 #3\else #2\fi
+  }
+%The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
+\newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
+%If there's a superscript following the bar, then no negative kern may follow the bar;
+%an additional {} makes sure that the superscript is high enough in this case:
+\newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
+%Use a separate algorithm for single symbols:
+\newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
+\newcommand*\wide@bar@[3]{%
+  \begingroup
+  \def\mathaccent##1##2{%
+%Enable nesting of accents:
+    \let\mathaccent\save@mathaccent
+%If there's more than a single symbol, use the first character instead (see below):
+    \if#32 \let\macc@nucleus\first@char \fi
+%Determine the italic correction:
+    \setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
+    \setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
+    \dimen@\wd\tw@
+    \advance\dimen@-\wd\z@
+%Now \dimen@ is the italic correction of the symbol.
+    \divide\dimen@ 3
+    \@tempdima\wd\tw@
+    \advance\@tempdima-\scriptspace
+%Now \@tempdima is the width of the symbol.
+    \divide\@tempdima 10
+    \advance\dimen@-\@tempdima
+%Now \dimen@ = (italic correction / 3) - (Breite / 10)
+    \ifdim\dimen@>\z@ \dimen@0pt\fi
+%The bar will be shortened in the case \dimen@<0 !
+    \rel@kern{0.6}\kern-\dimen@
+    \if#31
+      \overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
+      \advance\dimen@0.4\dimexpr\macc@kerna
+%Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
+      \let\final@kern#2%
+      \ifdim\dimen@<\z@ \let\final@kern1\fi
+      \if\final@kern1 \kern-\dimen@\fi
+    \else
+      \overline{\rel@kern{-0.6}\kern\dimen@#1}%
+    \fi
+  }%
+  \macc@depth\@ne
+  \let\math@bgroup\@empty \let\math@egroup\macc@set@skewchar
+  \mathsurround\z@ \frozen@everymath{\mathgroup\macc@group\relax}%
+  \macc@set@skewchar\relax
+  \let\mathaccentV\macc@nested@a
+%The following initialises \macc@kerna and calls \mathaccent:
+  \if#31
+    \macc@nested@a\relax111{#1}%
+  \else
+%If the argument consists of more than one symbol, and if the first token is
+%a letter, use that letter for the computations:
+    \def\gobble@till@marker##1\endmarker{}%
+    \futurelet\first@char\gobble@till@marker#1\endmarker
+    \ifcat\noexpand\first@char A\else
+      \def\first@char{}%
+    \fi
+    \macc@nested@a\relax111{\first@char}%
+  \fi
+  \endgroup
+}
+\makeatother
+
+\newcommand{\hin}{\say{$\implies$}}
+\newcommand{\rueck}{\say{$\impliedby$}}
+
+
+\newcommand*{\di}[1]{\:\mathrm{d}#1}
+
+\intervalconfig{soft open fences}
+
+\newcommand{\Dotss}[1]{\ifnumequal{#1}{0}{}{\cdot\Dotss{#1-1}}}
+
+% Algebraic integers of a field
+\newcommand{\algintegers}[1]{\mathcalorig{O}_{#1}}
+
+% Valuation at p
+\newcommand{\valuation}[2][p]{\nu_{#1}(#2)}
+
+% :<=>
+\newcommand{\logeq}{\mathrel{\vcentcolon\Leftrightarrow}}
+
+% Erweiterungsgrad
+\newcommand{\extensionDegree}[2]{[#1:#2]}
+
+% Abbildungen \to \mapsto 
+\newcommand{\fullmap}[5]{
+\begin{align*}
+  \ifblank{#1}{}{#1\colon}
+  #2 & \longto #3\\
+  #4 & \longmapsto #5
+\end{align*}
+}
+
+
+
+\newcommand*{\logicspace}{\hspace{0.5em}}
+
+\newcommand*{\timplies}{$\implies$}
+\newcommand*{\tiff}{$\iff$}
+\newcommand*{\texists}{$\oldexists$}
+\newcommand*{\tforall}{$\oldforall$}
