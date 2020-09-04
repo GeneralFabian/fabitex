@@ -27,21 +27,17 @@
 \RequirePackage{interval}
 \RequirePackage{longtable}
 \RequirePackage{marvosym}
-\RequirePackage[cal=boondoxo]{mathalfa}
 \RequirePackage{mathtools}
 \RequirePackage{multirow}
 \RequirePackage{nameref}
 \RequirePackage{nicefrac}
 \RequirePackage{nicematrix}
-\RequirePackage{pgfplots}
 \RequirePackage{soul}
 \RequirePackage{stackengine}
 \RequirePackage{stmaryrd}
 \RequirePackage{suffix}
 \RequirePackage{tabularx}
-\RequirePackage{tikz}
-\RequirePackage{tikz-cd}
-\RequirePackage{tkz-euclide}
+
 \RequirePackage{titlesec}
 \RequirePackage{wasysym}
 \RequirePackage{wrapfig}
@@ -49,22 +45,22 @@
 \RequirePackage{xpunctuate}
 \RequirePackage{xspace}
 
-% Muss am Ende geladen werden
-\RequirePackage{hyperref}
+%\RequirePackage{newtxmath}
+\DeclareSymbolFontAlphabet{\Oldbbb}{AMSb}
+%\RequirePackage[cal=boondoxo]{mathalfa}
+\DeclareSymbolFontAlphabet{\mcal}{symbols}
+% Neues \mathcal Alphabet
+%\newcommand{\mcal}[1]{\mathcalorig{#1}}
 %
 
-\DeclareSymbolFontAlphabet{\mathcalorig}   {symbols}
-\newcommand{\mcal}[1]{\mathcalorig{#1}}
-
+% Alles tikz
+\RequirePackage{pgfplots}
+\RequirePackage{tikz}
+\RequirePackage{tikz-cd}
+\RequirePackage{tkz-euclide}
 \pgfplotsset{compat=1.17}
 \usetikzlibrary{arrows.meta, shapes}
-
-\hypersetup{
-  colorlinks   = true,    % Colours links instead of ugly boxes
-  urlcolor     = blue,    % Colour for external hyperlinks
-  linkcolor    = blue,    % Colour of internal links
-  citecolor    = red      % Colour of citations
-}
+%
 
 \titleformat{\section}[hang]
 {\sc\large\center} % Kapitälchen, groß, centered
@@ -228,22 +224,24 @@
 \DeclareFunction{\GL}[2]{\operatorname{GL}_{#1}}{#2} % invertible matrices
 \DeclareFunction{\Char}[1]{\operatorname{char}}{#1} % characteristic of a field
 \DeclareFunction{\im}[1]{\operatorname{im}}{#1}
-%\DeclareMathOperator{\id}{id}
-%\DeclareMathOperator{\ggT}{ggT}
-%\DeclareMathOperator{\kgV}{kgV}
-%\DeclareMathOperator{\Rang}{Rang}
-%\DeclareMathOperator{\rank}{rank}
-%\DeclareMathOperator{\ord}{ord}
-%\DeclareMathOperator{\stab}{stab}
-%\DeclareMathOperator{\vol}{vol}
-%\DeclareMathOperator{\med}{med}
-%\DeclareMathOperator{\diag}{diag}
-%\DeclareMathOperator{\supp}{supp}
-%\DeclareMathOperator{\sign}{sign}
-%\DeclareMathOperator{\tr}{tr}
-%\DeclareMathOperator{\spa}{span}
-%\DeclareMathOperatorWithDelimiter{\Span}[1]{\operatorname{span}}{\lbrace}{\rbrace}{#1}
-%\DeclareMathOperatorWithDelimiter{\floor}[1]{}{\lfloor}{\rfloor}{#1}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\ggT}{ggT}
+\DeclareMathOperator{\kgV}{kgV}
+\DeclareMathOperator{\Rang}{Rang}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\ind}{ind}
+\DeclareMathOperator{\stab}{stab}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\med}{med}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperatorWithDelimiter{\Span}[1]{\operatorname{span}}{\lbrace}{\rbrace}{#1}
+\DeclareMathOperatorWithDelimiter{\floor}[1]{}{\lfloor}{\rfloor}{#1}
+\let\abs\relax
+\DeclareMathOperatorWithDelimiter{\abs}[1]{}{\lvert}{\rvert}{#1}
 %
 %\DeclareMathOperatorWithDelimiter{\TV}[1]{\operatorname{TV}}{\lparen}{\rparen}{#1}   
 %\DeclareMathOperatorWithDelimiter{\DV}[1]{\operatorname{DV}}{\lparen}{\rparen}{#1}    
@@ -262,16 +260,16 @@
 %\DeclareMathOperatorWithDelimiter{\grad}[1]{\operatorname{grad}}{\lparen}{\rparen}{#1} % %grad of #1 
 %\DeclareMathOperatorWithDelimiter{\gradient}[1]{\nabla}{\lparen}{\rparen}{#1} % grad of %#1 
 \DeclareFunction{\Par}[1]{}{#1}
-\DeclareFunction{\Bij}[1]{\operatorname{Bij}}{#1} 
-\DeclareFunction{\Bil}[1]{\operatorname{Bil}}{#1} 
-\DeclareFunction{\Sym}[1]{\operatorname{Sym}}{#1}  
-\DeclareFunction{\Gal}[1]{\operatorname{Gal}}{#1}  
-\DeclareFunction{\Rad}[1]{\operatorname{Rad}}{#1}  
-\DeclareFunction{\Int}[1]{\operatorname{Int}}{#1}  
-\DeclareFunction{\End}[1]{\operatorname{End}}{#1}  
-\DeclareFunction{\Aut}[1]{\operatorname{Aut}}{#1}  
-\DeclareFunction{\Hom}[1]{\operatorname{Hom}}{#1}  
-\DeclareFunction{\Eig}[1]{\operatorname{Eig}}{#1}
+\DeclareMathOperator{\Bij}{Bij}
+\DeclareMathOperator{\Bil}{Bil} 
+\DeclareMathOperator{\Sym}{Sym}  
+\DeclareMathOperator{\Gal}{Gal}  
+\DeclareMathOperator{\Rad}{Rad}  
+\DeclareMathOperator{\Int}{Int}  
+\DeclareMathOperator{\End}{End}  
+\DeclareMathOperator{\Aut}{Aut}  
+\DeclareMathOperator{\Hom}{Hom}  
+\DeclareMathOperator{\Eig}{Eig}
 \DeclareFunction{\Mat}[2]{\operatorname{Mat}_{#1}}{#2}
 \DeclareFunction{\matrices}[3]{\operatorname{Mat}}{#1 \times #2, #3}
 \newcommand{\sqmatrices}[2]{\matrices{#1}{#1}{#2}} 
@@ -306,6 +304,7 @@
 \DeclareMathOperatorWithDelimiter{\Min}[1]{\operatorname{min}}{\lbrace}{\rbrace}{#1}
 \DeclareMathOperatorWithDelimiter{\Max}[1]{\operatorname{max}}{\lbrace}{\rbrace}{#1}
 \DeclareMathOperatorWithDelimiter{\Set}[1]{}{\lbrace}{\rbrace}{#1}
+\DeclareMathOperatorWithDelimiter{\Brack}[1]{}{\lbrack}{\rbrack}{#1}
 
 \DeclarePairedDelimiterXPP{\restr}[1]{}{.}{\rvert}{}{#1} % restriction of domain 
 \DeclareMathOperatorWithDelimiter{\dotp}[1]{}{\langle}{\rangle}{\ifblank{#1}{\cdot,\!\cdot}{#1}}
@@ -314,17 +313,13 @@
 \newcommand\ifcounter[3]{\@ifundefined{c@#1}{#3}{#2}} % Prüft, ob #1 als counter existiert
 \makeatother
 
+\theoremstyle{definition}
 % Alle Arten von Sätzen/Lemmata/...
 \ifcounter{chapter}{
 \newtheorem{theorem}{Satz}[chapter]} % Für book
 {\newtheorem{theorem}{Satz}[section]} % Für article
 \newtheorem{corollary}[theorem]{Korollar}
 \newtheorem{lemma}[theorem]{Lemma}
-
-% ...Bemerkungen...
-\theoremstyle{remark}
-\newtheorem*{remark*}{Bemerkung}
-\newtheorem{remark}[theorem]{Bemerkung}
 
 
 % ...Folgerungen...
@@ -333,15 +328,16 @@
 \newtheorem*{conclusion*}{Folgerung}
 
 % ... Definitionen...
-\theoremstyle{definition}
 \newtheorem*{definition*}{Definition}
 \newtheorem{definition}[theorem]{Definition}
 
 \newtheorem{proposition}[theorem]{Proposition}
-
+% ...Bemerkungen...
+\theoremstyle{remark}
+\newtheorem*{remark*}{Bemerkung}
+\newtheorem{remark}[theorem]{Bemerkung}
 
 % ...Beispiele...
-\theoremstyle{definition}
 \newtheorem*{example}{Beispiel}
 \newtheorem{example+}[theorem]{Beispiel}
 
@@ -406,6 +402,7 @@
 \newcommand{\comment}[1]{}
 
 % different bars/overlines
+% https://tex.stackexchange.com/questions/16337/can-i-get-a-widebar-without-using-the-mathabx-package
 \makeatletter
 \tikzset{
   column sep/.code=\def\pgfmatrixcolumnsep{\pgf@matrix@xscale*(#1)},
@@ -521,7 +518,6 @@
 }
 
 
-
 \newcommand*{\logicspace}{\hspace{0.5em}}
 
 \newcommand*{\timplies}{$\implies$}
@@ -533,3 +529,14 @@
 \RequirePackage[inline]{enumitem}
 \setlist[enumerate, 1]{ref=\labelenumi}
 \setlist[enumerate, 2]{ref=\labelenumii}
+
+% Muss am Ende geladen werden
+\RequirePackage{hyperref}
+%
+\hypersetup{
+  colorlinks   = true,    % Colours links instead of ugly boxes
+  urlcolor     = blue,    % Colour for external hyperlinks
+  linkcolor    = blue,    % Colour of internal links
+  citecolor    = red      % Colour of citations
+}
+%========================================================================================
